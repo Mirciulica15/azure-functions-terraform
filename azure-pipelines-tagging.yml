@@ -1,0 +1,32 @@
+trigger:
+  - none
+
+parameters:
+- name: subscription
+  type: string
+  default: 'SPN-accesaplayground'
+
+stages:
+
+- stage: resources
+  
+
+- stage: tag
+  jobs:
+  - job: deploy
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    - task: AzurePowerShell@5
+      inputs:
+        azureSubscription: ${{ parameters.subscription }}
+        ScriptType: 'FilePath'
+        ScriptPath: "scripts/tag.ps1"
+        #ScriptArguments: # string. Optional. Use when ScriptType = FilePath. Script Arguments. 
+        FailOnStandardError: true
+        #azurePowerShellVersion: 'OtherVersion' # 'LatestVersion' | 'OtherVersion'. Alias: TargetAzurePs. Azure PowerShell Version. Default: OtherVersion.
+        preferredAzurePowerShellVersion: # string. Alias: CustomTargetAzurePs. Required when TargetAzurePs = OtherVersion. Preferred Azure PowerShell Version. 
+      # Advanced
+        #pwsh: false # boolean. Use PowerShell Core. Default: false.
+        #validateScriptSignature: false # boolean. Optional. Use when ScriptType = FilePath. Validate script signature. Default: false.
+        #workingDirectory: # string. Working Directory.

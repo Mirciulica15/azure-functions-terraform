@@ -1,0 +1,20 @@
+terraform {
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "=3.75.0"
+    }
+  }
+
+  backend "azurerm" {
+    resource_group_name   = "rg-common-resources"
+    storage_account_name  = "tfstateaccesamircea"
+    container_name        = "my-container"
+    key                   = "terraform.tfstate"
+  }
+}
+
+provider "azurerm" {
+  skip_provider_registration = true
+  features {}
+}
