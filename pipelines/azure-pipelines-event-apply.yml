@@ -16,7 +16,7 @@ parameters:
   default: 'westeurope'
 - name: storageContainerName
   type: string
-  default: 'my-container'
+  default: 'my-eventContainer'
 - name: stages
   type: object
   default: 
@@ -47,7 +47,7 @@ stages:
         scriptType: pscore
         scriptLocation: 'scriptPath'
         addSpnToEnvironment: True
-        arguments: '${{ parameters.storageAccRg }} ${{ parameters.storageAccName }} ${{ parameters.storageAccLocation }} ${{ parameters.eventStorageContainerName }}'
+        arguments: '${{ parameters.storageAccRg }} ${{ parameters.storageAccName }} ${{ parameters.storageAccLocation }} ${{ parameters.storageContainerName }}'
         scriptPath: 'pipelines/scripts/storage-check.ps1'
 
 - ${{ each value in parameters.stages }}:
