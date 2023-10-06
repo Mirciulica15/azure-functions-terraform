@@ -55,7 +55,7 @@ stages:
     parameters:
       name: ${{ value }}
       subscription: ${{ parameters.subscription }}
-      source: 'tag-function'
+      source: 'event-grid'
       workload: ${{ parameters.workload }}
       environment: ${{ parameters.environment }}
       region: ${{ parameters.region }}
