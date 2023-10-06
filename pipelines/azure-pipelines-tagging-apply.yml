@@ -60,11 +60,11 @@ stages:
       environment: ${{ parameters.environment }}
       region: ${{ parameters.region }}
 
-- stage: build
-  displayName: Build stage
+- stage: deploy
+  displayName: Deploy stage
   jobs:
-  - job: Build
-    displayName: Build
+  - job: Deploy
+    displayName: Deploy
     pool:
       vmImage: ubuntu-latest
     steps:
@@ -77,6 +77,7 @@ stages:
     #     archiveFile: tag.zip
     #     replaceExistingArchive: true
     - task: ArchiveFiles@2
+      displayName: 'Archive files'
       inputs:
         rootFolderOrFile: './scripts/tag.ps1'
         includeRootFolder: false
@@ -86,25 +87,10 @@ stages:
       inputs:
         PathtoPublish: '$(System.DefaultWorkingDirectory)/build$(Build.BuildId).zip'
         artifactName: 'drop'
-
-- stage: Deploy
-  displayName: Deploy stage
-  dependsOn: Build
-  condition: succeeded()
-  jobs:
-  - deployment: Deploy
-    displayName: Deploy
-    environment: 'test'
-    pool:
-      vmImage: ubuntu-latest
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - task: AzureFunctionApp@1
-            displayName: 'Azure functions app deploy'
-            inputs:
-              azureSubscription: ${{ parameters.subscription }}
-              appType: functionAppLinux
-              appName: 'func-${{ parameters.workload }}-${{ parameters.environment }}-${{ parameters.region }}'
-              package: $(System.ArtifactsDirectory)/**/*.zip
+    - task: AzureFunctionApp@1
+      displayName: 'Azure functions app deploy'
+      inputs:
+        azureSubscription: ${{ parameters.subscription }}
+        appType: functionAppLinux
+        appName: 'func-${{ parameters.workload }}-${{ parameters.environment }}-${{ parameters.region }}'
+        package: $(System.ArtifactsDirectory)/**/*.zip
