@@ -11,6 +11,6 @@ resource "azurerm_eventgrid_event_subscription" "main" {
   scope = data.azurerm_subscription.current.id
 
   azure_function_endpoint {
-    function_id = data.azurerm_windows_function_app.main.id/functions/tag
+    function_id = "${data.azurerm_windows_function_app.main.id}/functions/tag"
   }
 }
