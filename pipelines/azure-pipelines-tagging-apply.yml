@@ -98,5 +98,5 @@ stages:
             inputs:
               azureSubscription: ${{ parameters.subscription }}
               appType: functionApp
-              appName: 'tag'
+              appName: 'func-${{ parameters.workload }}-${{ parameters.environment }}-${{ parameters.region }}'
               package: '$(Pipeline.Workspace)/drop/tag.zip'
