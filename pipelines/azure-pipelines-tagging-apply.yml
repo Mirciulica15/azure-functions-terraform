@@ -79,6 +79,7 @@ stages:
     - task: ArchiveFiles@2
       inputs:
         rootFolderOrFile: './scripts/tag.ps1'
+        includeRootFolder: false
         archiveType: 'zip'
         archiveFile: '$(System.DefaultWorkingDirectory)/build$(Build.BuildId).zip'
     - task: PublishBuildArtifacts@1
@@ -104,6 +105,6 @@ stages:
             displayName: 'Azure functions app deploy'
             inputs:
               azureSubscription: ${{ parameters.subscription }}
-              appType: functionApp
+              appType: functionAppLinux
               appName: 'func-${{ parameters.workload }}-${{ parameters.environment }}-${{ parameters.region }}'
               package: $(System.ArtifactsDirectory)/**/*.zip
