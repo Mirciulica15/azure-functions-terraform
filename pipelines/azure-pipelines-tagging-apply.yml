@@ -32,6 +32,9 @@ parameters:
 - name: region
   type: string
   default: 'westeurope'
+- name: eventStorageContainerName
+  type: string
+  default: 'my-eventContainer'
 
 stages:
 
@@ -97,6 +100,21 @@ stages:
               appType: functionApp
               appName: 'tag'
               package: '$(Pipeline.Workspace)/drop/tag.zip'
+
+- stage: storageEvent
+  jobs:
+  - job: check_storage
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    - task: AzureCLI@2
+      inputs:
+        azureSubscription: ${{ parameters.subscription }}
+        scriptType: pscore
+        scriptLocation: 'scriptPath'
+        addSpnToEnvironment: True
+        arguments: '${{ parameters.storageAccRg }} ${{ parameters.storageAccName }} ${{ parameters.storageAccLocation }} ${{ parameters.eventStorageContainerName }}'
+        scriptPath: 'pipelines/scripts/storage-check.ps1'
 
 - ${{ each value in parameters.stages }}:
   - template: templates/terraform-stage-template.yml
