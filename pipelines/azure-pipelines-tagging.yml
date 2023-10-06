@@ -82,7 +82,7 @@ stages:
   jobs:
   - deployment: Deploy
     displayName: Deploy
-    environment: 'func-${{ parameters.workload }}-${{ parameters.environment }}-${{ parameters.region }}'. # Ce enviromnet e asta? func-blabla??
+    environment: 'func-${{ parameters.workload }}-${{ parameters.environment }}-${{ parameters.region }}' # Ce enviromnet e asta? func-blabla??
     pool:
       vmImage: ubuntu-latest
     strategy:
