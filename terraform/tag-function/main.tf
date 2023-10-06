@@ -20,11 +20,11 @@ resource "azurerm_service_plan" "main" {
   name                = "asp-${var.workload}-${var.environment}-${var.region}"
   resource_group_name = azurerm_resource_group.main.name
   location            = azurerm_resource_group.main.location
-  os_type             = "Linux"
+  os_type             = "Windows"
   sku_name            = "EP1"
 }
 
-resource "azurerm_linux_function_app" "main" {
+resource "azurerm_windows_function_app" "main" {
   name                = "func-${var.workload}-${var.environment}-${var.region}"
   resource_group_name = azurerm_resource_group.main.name
   location            = azurerm_resource_group.main.location
