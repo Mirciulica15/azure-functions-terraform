@@ -82,10 +82,10 @@ stages:
         rootFolderOrFile: './scripts/tag.ps1'
         includeRootFolder: false
         archiveType: 'zip'
-        archiveFile: '$(System.DefaultWorkingDirectory)/build$(Build.BuildId).zip'
+        archiveFile: '$(System.ArtifactsDirectory)/build$(Build.BuildId).zip'
     - task: PublishBuildArtifacts@1
       inputs:
-        PathtoPublish: '$(System.DefaultWorkingDirectory)/build$(Build.BuildId).zip'
+        PathtoPublish: '$(System.ArtifactsDirectory)/build$(Build.BuildId).zip'
         artifactName: 'drop'
     - task: AzureFunctionApp@1
       displayName: 'Azure functions app deploy'
@@ -93,4 +93,4 @@ stages:
         azureSubscription: ${{ parameters.subscription }}
         appType: functionAppLinux
         appName: 'func-${{ parameters.workload }}-${{ parameters.environment }}-${{ parameters.region }}'
-        package: $(System.ArtifactsDirectory)/drop/build$(Build.BuildId).zip
+        package: $(System.ArtifactsDirectory)/**/*.zip
