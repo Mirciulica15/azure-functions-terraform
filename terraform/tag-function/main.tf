@@ -7,8 +7,17 @@ resource "azurerm_storage_account" "main" {
   name                     = "st-${var.workload}-${var.environment}-${var.region}"
   resource_group_name      = azurerm_resource_group.main.name
   location                 = azurerm_resource_group.main.location
-  account_tier             = "Basic"
+  account_tier             = "Standard"
   account_replication_type = "LRS"
+}
+
+resource "azurerm_service_plan" "main" {
+  name                = "asp-${var.workload}-${var.environment}-${var.region}"
+  resource_group_name = azurerm_resource_group.main.name
+  location            = azurerm_resource_group.main.location
+  os_type             = "Linux"
+  sku_name            = "P1v2"
+  kind                = "FunctionApp"
 }
 
 resource "azurerm_function_app" "main" {
@@ -17,19 +26,7 @@ resource "azurerm_function_app" "main" {
   storage_account_access_key  = azurerm_storage_account.main.primary_access_key
   location                    = azurerm_resource_group.main.location
   resource_group_name         = azurerm_resource_group.main.name
-  app_service_plan_id         = azurerm_app_service_plan.main.id
-}
-
-resource "azurerm_app_service_plan" "main" {
-  name                = "asp-${var.workload}-${var.environment}-${var.region}"
-  location            = azurerm_resource_group.main.location
-  resource_group_name = azurerm_resource_group.main.name
-  kind                = "FunctionApp"
-
-  sku {
-    tier = "Dynamic"
-    size = "Y1"
-  }
+  app_service_plan_id         = azurerm_service_plan.main.id
 }
 
 resource "azurerm_storage_queue" "main" {
@@ -39,6 +36,7 @@ resource "azurerm_storage_queue" "main" {
 
 resource "azurerm_subscription" "main" {
   subscription_name = "DevOps and Infra CA - Bogdan Dragos"
+  subscription_id   =  "becac16d-bf7b-4be5-ac53-982193486642"
 }
 
 resource "azurerm_eventgrid_event_subscription" "example" {
