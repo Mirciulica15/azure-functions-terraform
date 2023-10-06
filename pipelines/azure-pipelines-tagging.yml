@@ -48,10 +48,10 @@ stages:
         scriptLocation: 'scriptPath'
         addSpnToEnvironment: True
         arguments: '${{ parameters.storageAccRg }} ${{ parameters.storageAccName }} ${{ parameters.storageAccLocation }} ${{ parameters.storageContainerName }}'
-        scriptPath: './scripts/storage-check.ps1'
+        scriptPath: './pipelines/scripts/storage-check.ps1'
 
 - ${{ each value in parameters.stages }}:
-  - template: templates/terraform-stage-template.yml
+  - template: pipelines/templates/terraform-stage-template.yml
     parameters:
       name: ${{ value }}
       subscription: ${{ parameters.subscription }}
