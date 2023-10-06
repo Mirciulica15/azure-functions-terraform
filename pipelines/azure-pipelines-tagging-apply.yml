@@ -68,16 +68,21 @@ stages:
     pool:
       vmImage: ubuntu-latest
     steps:
+    # - task: ArchiveFiles@2
+    #   displayName: 'Archive files'
+    #   inputs:
+    #     rootFolderOrFile: 'scripts/tag.ps1'
+    #     includeRootFolder: false
+    #     archiveType: zip
+    #     archiveFile: tag.zip
+    #     replaceExistingArchive: true
     - task: ArchiveFiles@2
-      displayName: 'Archive files'
       inputs:
-        rootFolderOrFile: 'scripts/tag.ps1'
-        includeRootFolder: false
-        archiveType: zip
-        archiveFile: tag.zip
-        replaceExistingArchive: true
-    - publish: tag.zip
-      artifact: drop
+        rootFolderOrFile: '$(Build.BinariesDirectory)'
+        archiveType: 'zip'
+        archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+    # - publish: tag.zip
+    #   artifact: drop
 
 - stage: Deploy
   displayName: Deploy stage
@@ -99,4 +104,4 @@ stages:
               azureSubscription: ${{ parameters.subscription }}
               appType: functionApp
               appName: 'func-${{ parameters.workload }}-${{ parameters.environment }}-${{ parameters.region }}'
-              package: '$(Pipeline.Workspace)/drop/tag.zip'
+              package: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
