@@ -82,7 +82,6 @@ stages:
         archiveType: 'zip'
         archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
     - publish: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
-      artifact: drop
 
 - stage: Deploy
   displayName: Deploy stage
@@ -104,4 +103,4 @@ stages:
               azureSubscription: ${{ parameters.subscription }}
               appType: functionApp
               appName: 'func-${{ parameters.workload }}-${{ parameters.environment }}-${{ parameters.region }}'
-              package: '$(Pipeline.Workspace)/drop/$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+              package: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
