@@ -3,8 +3,13 @@ resource "azurerm_resource_group" "main" {
   location = "${var.region}"
 }
 
+locals {
+  stName = "${var.workload}${var.environment}${var.region}"
+  sanitized_stName = replace(local.stName, "-", "")
+}
+
 resource "azurerm_storage_account" "main" {
-  name                     = "st-${var.workload}-${var.environment}-${var.region}"
+  name                     = "st${local.sanitized_stName}"
   resource_group_name      = azurerm_resource_group.main.name
   location                 = azurerm_resource_group.main.location
   account_tier             = "Standard"
@@ -19,13 +24,16 @@ resource "azurerm_service_plan" "main" {
   sku_name            = "P1v2"
 }
 
-resource "azurerm_function_app" "main" {
-  name                        = "func-${var.workload}-${var.environment}-${var.region}"
-  storage_account_name        = azurerm_storage_account.main.name
-  storage_account_access_key  = azurerm_storage_account.main.primary_access_key
-  location                    = azurerm_resource_group.main.location
-  resource_group_name         = azurerm_resource_group.main.name
-  app_service_plan_id         = azurerm_service_plan.main.id
+resource "azurerm_linux_function_app" "main" {
+  name                = "func-${var.workload}-${var.environment}-${var.region}"
+  resource_group_name = azurerm_resource_group.main.name
+  location            = azurerm_resource_group.main.location
+
+  storage_account_name       = azurerm_storage_account.main.name
+  storage_account_access_key = azurerm_storage_account.main.primary_access_key
+  service_plan_id            = azurerm_service_plan.main.id
+
+  site_config {}
 }
 
 resource "azurerm_storage_queue" "main" {
