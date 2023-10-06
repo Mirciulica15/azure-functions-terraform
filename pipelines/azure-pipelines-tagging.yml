@@ -82,7 +82,7 @@ stages:
   jobs:
   - deployment: Deploy
     displayName: Deploy
-    environment: 'func-${var.workload}-${var.environment}-${var.region}'
+    environment: 'func-${{ parameters.workload }}-${{ parameters.environment }}-${{ parameters.region }}'
     pool:
       vmImage: ubuntu-latest
     strategy:
