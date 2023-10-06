@@ -17,7 +17,6 @@ resource "azurerm_service_plan" "main" {
   location            = azurerm_resource_group.main.location
   os_type             = "Linux"
   sku_name            = "P1v2"
-  kind                = "FunctionApp"
 }
 
 resource "azurerm_function_app" "main" {
