@@ -36,11 +36,6 @@ resource "azurerm_linux_function_app" "main" {
   site_config {}
 }
 
-resource "azurerm_storage_queue" "main" {
-  name                 = "stq-${var.workload}-${var.environment}-${var.region}"
-  storage_account_name = azurerm_storage_account.main.name
-}
-
 resource "azurerm_subscription" "main" {
   subscription_name = "DevOps and Infra CA - Bogdan Dragos"
   subscription_id   =  "becac16d-bf7b-4be5-ac53-982193486642"
@@ -49,11 +44,6 @@ resource "azurerm_subscription" "main" {
 resource "azurerm_eventgrid_event_subscription" "main" {
   name  = "evgs-${var.workload}-${var.environment}-${var.region}"
   scope = azurerm_subscription.main.id
-
-  storage_queue_endpoint {
-    storage_account_id = azurerm_storage_account.main.id
-    queue_name         = azurerm_storage_queue.main.name
-  }
 
   azure_function_endpoint {
     function_id = azurerm_linux_function_app.main.id
