@@ -46,7 +46,7 @@ resource "azurerm_subscription" "main" {
   subscription_id   =  "becac16d-bf7b-4be5-ac53-982193486642"
 }
 
-resource "azurerm_eventgrid_event_subscription" "example" {
+resource "azurerm_eventgrid_event_subscription" "main" {
   name  = "evgs-${var.workload}-${var.environment}-${var.region}"
   scope = azurerm_subscription.main.id
 
@@ -56,6 +56,6 @@ resource "azurerm_eventgrid_event_subscription" "example" {
   }
 
   azure_function_endpoint {
-    function_id = azurerm_function_app.main.id
+    function_id = azurerm_linux_function_app.main.id
   }
 }
