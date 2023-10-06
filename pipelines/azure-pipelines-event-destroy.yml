@@ -12,4 +12,4 @@ stages:
   parameters:
     name: destroy
     subscription: ${{ parameters.subscription }}
-    source: 'tag-function'
+    source: 'event-grid'
