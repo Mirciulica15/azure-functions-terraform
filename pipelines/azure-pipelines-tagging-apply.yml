@@ -93,4 +93,4 @@ stages:
         azureSubscription: ${{ parameters.subscription }}
         appType: functionAppLinux
         appName: 'func-${{ parameters.workload }}-${{ parameters.environment }}-${{ parameters.region }}'
-        package: '$(System.DefaultWorkingDirectory)/build$(Build.BuildId).zip'
+        package: $(System.ArtifactsDirectory)/drop/build$(Build.BuildId).zip
