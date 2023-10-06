@@ -21,7 +21,7 @@ resource "azurerm_service_plan" "main" {
   resource_group_name = azurerm_resource_group.main.name
   location            = azurerm_resource_group.main.location
   os_type             = "Linux"
-  sku_name            = "P1v2"
+  sku_name            = "B1"
 }
 
 resource "azurerm_linux_function_app" "main" {
@@ -36,14 +36,12 @@ resource "azurerm_linux_function_app" "main" {
   site_config {}
 }
 
-# resource "azurerm_subscription" "main" {
-#   subscription_name = "DevOps and Infra CA - Bogdan Dragos"
-#   subscription_id   =  "becac16d-bf7b-4be5-ac53-982193486642"
-# }
+data "azurerm_subscription" "current" {
+}
 
 resource "azurerm_eventgrid_event_subscription" "main" {
   name  = "evgs-${var.workload}-${var.environment}-${var.region}"
-  scope = azurerm_resource_group.main.id
+  scope = data.azurerm_subscription.current.id
 
   azure_function_endpoint {
     function_id = azurerm_linux_function_app.main.id
