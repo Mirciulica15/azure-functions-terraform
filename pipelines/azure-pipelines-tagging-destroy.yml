@@ -1,0 +1,14 @@
+trigger:
+  - none
+
+parameters:
+- name: subscription
+  type: string
+  default: 'SPN-accesaplayground'
+
+stages:
+
+- template: templates/terraform-stage-template.yml
+  parameters:
+    name: destroy
+    subscription: ${{ parameters.subscription }}
