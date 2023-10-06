@@ -33,6 +33,8 @@ parameters:
   type: string
   default: 'westeurope'
 
+stages:
+
 - stage: storageEvent
   jobs:
   - job: check_storage
