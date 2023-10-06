@@ -116,7 +116,7 @@ stages:
         arguments: '${{ parameters.storageAccRg }} ${{ parameters.storageAccName }} ${{ parameters.storageAccLocation }} ${{ parameters.eventStorageContainerName }}'
         scriptPath: 'pipelines/scripts/storage-check.ps1'
 
-- ${{ each value in parameters.stages }}:
+- event${{ each value in parameters.stages }}:
   - template: templates/terraform-stage-template.yml
     parameters:
       name: ${{ value }}
