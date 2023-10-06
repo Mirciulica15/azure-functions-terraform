@@ -19,6 +19,7 @@ jobs:
       addSpnToEnvironment: True
       inlineScript: |
         cd terraform/${{ parameters.source }}
+        pwd
         
         $env:ARM_CLIENT_ID = $env:servicePrincipalId
         $env:ARM_CLIENT_SECRET = $env:servicePrincipalKey 

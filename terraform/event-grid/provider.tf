@@ -9,7 +9,7 @@ terraform {
   backend "azurerm" {
     resource_group_name   = "rg-common-resources"
     storage_account_name  = "tfstateaccesafunctions"
-    container_name        = "my-eventContainer"
+    container_name        = "my-eventcontainer"
     key                   = "terraform.tfstate"
   }
 }
