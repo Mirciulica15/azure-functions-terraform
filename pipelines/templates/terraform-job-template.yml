@@ -17,7 +17,7 @@ jobs:
       scriptLocation: inlineScript
       addSpnToEnvironment: True
       inlineScript: |
-        cd src
+        cd terraform/tag-function
         
         $env:ARM_CLIENT_ID = $env:servicePrincipalId
         $env:ARM_CLIENT_SECRET = $env:servicePrincipalKey 
