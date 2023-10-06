@@ -55,6 +55,7 @@ stages:
     parameters:
       name: ${{ value }}
       subscription: ${{ parameters.subscription }}
+      source: 'tag-function'
 
 - stage: build
   displayName: Build stage
@@ -94,5 +95,12 @@ stages:
             inputs:
               azureSubscription: ${{ parameters.subscription }}
               appType: functionApp
-              appName: 'func-${{ parameters.workload }}-${{ parameters.environment }}-${{ parameters.region }}'
+              appName: 'tag'
               package: '$(Pipeline.Workspace)/drop/tag.zip'
+
+- ${{ each value in parameters.stages }}:
+  - template: templates/terraform-stage-template.yml
+    parameters:
+      name: ${{ value }}
+      subscription: ${{ parameters.subscription }}
+      source: 'event-grid'

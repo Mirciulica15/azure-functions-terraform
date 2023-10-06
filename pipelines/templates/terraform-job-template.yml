@@ -1,6 +1,7 @@
 parameters:
   terraformCommand: ''
   subscription: ''
+  source: ''
   workload: ''
   environment: ''
   region: ''
@@ -17,7 +18,7 @@ jobs:
       scriptLocation: inlineScript
       addSpnToEnvironment: True
       inlineScript: |
-        cd terraform/tag-function
+        cd terraform/${{ parameters.source }}
         
         $env:ARM_CLIENT_ID = $env:servicePrincipalId
         $env:ARM_CLIENT_SECRET = $env:servicePrincipalKey 
