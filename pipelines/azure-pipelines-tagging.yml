@@ -10,7 +10,7 @@ parameters:
   default: 'rg-common-resources'
 - name: storageAccName
   type: string
-  default: 'tfstateaccesamirceafunctions'
+  default: 'tfstateaccesafunctions'
 - name: storageAccLocation
   type: string
   default: 'westeurope'
