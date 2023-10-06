@@ -16,7 +16,7 @@ parameters:
   default: 'westeurope'
 - name: storageContainerName
   type: string
-  default: 'my-eventContainer'
+  default: 'my-eventcontainer'
 - name: stages
   type: object
   default: 
