@@ -17,6 +17,12 @@ parameters:
 - name: storageContainerName
   type: string
   default: 'my-container'
+- name: stages
+  type: object
+  default: 
+  - validate
+  - plan
+  - apply
 - name: workload
   type: string
   default: 'tagging'
