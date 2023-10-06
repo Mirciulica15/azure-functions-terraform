@@ -81,8 +81,8 @@ stages:
         rootFolderOrFile: './scripts/tag.ps1'
         archiveType: 'zip'
         archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
-    # - publish: tag.zip
-    #   artifact: drop
+    - publish: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+      artifact: drop
 
 - stage: Deploy
   displayName: Deploy stage
@@ -104,4 +104,4 @@ stages:
               azureSubscription: ${{ parameters.subscription }}
               appType: functionApp
               appName: 'func-${{ parameters.workload }}-${{ parameters.environment }}-${{ parameters.region }}'
-              package: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+              package: '$(Pipeline.Workspace)/drop/$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
