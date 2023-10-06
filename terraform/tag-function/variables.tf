@@ -1,9 +1,9 @@
 variable "workload" {
-  default = "tfproject"
+  default = "tagging"
 }
 
 variable "environment" {
-  default = "staging"
+  default = "test"
 }
 
 variable "region" {

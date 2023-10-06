@@ -1,0 +1,15 @@
+parameters:
+  name: ''
+  subscription: ''
+  workload: ''
+  environment: ''
+  region: ''
+
+stages:
+
+- stage: ${{ parameters.name }}
+  jobs:
+  - template: ./terraform-job-template.yml
+    parameters:
+      terraformCommand: '${{ parameters.name }}'
+      subscription: ${{ parameters.subscription }}

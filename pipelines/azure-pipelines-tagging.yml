@@ -1,0 +1,92 @@
+trigger:
+  - none
+
+parameters:
+- name: subscription
+  type: string
+  default: 'SPN-accesaplayground'
+- name: storageAccRg
+  type: string
+  default: 'rg-common-resources'
+- name: storageAccName
+  type: string
+  default: 'tfstateaccesamirceafunctions'
+- name: storageAccLocation
+  type: string
+  default: 'westeurope'
+- name: storageContainerName
+  type: string
+  default: 'my-container'
+- name: workload
+  type: string
+  default: 'tagging'
+- name: environment
+  type: string
+  default: 'test'
+- name: region
+  type: string
+  default: 'westeurope'
+
+stages:
+
+- stage: storage
+  jobs:
+  - job: check_storage
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    - task: AzureCLI@2
+      inputs:
+        azureSubscription: ${{ parameters.subscription }}
+        scriptType: pscore
+        scriptLocation: 'scriptPath'
+        addSpnToEnvironment: True
+        arguments: '${{ parameters.storageAccRg }} ${{ parameters.storageAccName }} ${{ parameters.storageAccLocation }} ${{ parameters.storageContainerName }}'
+        scriptPath: './scripts/storage-check.ps1'
+
+- ${{ each value in parameters.stages }}:
+  - template: templates/terraform-stage-template.yml
+    parameters:
+      name: ${{ value }}
+      subscription: ${{ parameters.subscription }}
+
+- stage: build
+  displayName: Build stage
+  jobs:
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    - task: ArchiveFiles@2
+      displayName: 'Archive files'
+      inputs:
+        rootFolderOrFile: 'scripts/tag.ps1'
+        includeRootFolder: false
+        archiveType: zip
+        archiveFile: tag.zip
+        replaceExistingArchive: true
+    - publish: tag.zip
+      artifact: drop
+
+- stage: Deploy
+  displayName: Deploy stage
+  dependsOn: Build
+  condition: succeeded()
+  jobs:
+  - deployment: Deploy
+    displayName: Deploy
+    environment: 'func-${var.workload}-${var.environment}-${var.region}'
+    pool:
+      vmImage: ubuntu-latest
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: AzureFunctionApp@1
+            displayName: 'Azure functions app deploy'
+            inputs:
+              azureSubscription: ${{ parameters.subscription }}
+              appType: functionApp
+              appName: 'func-${{ parameters.workload }}-${{ parameters.environment }}-${{ parameters.region }}'
+              package: '$(Pipeline.Workspace)/drop/tag.zip'
