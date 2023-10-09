@@ -4,7 +4,7 @@ $caller = $eventGridEvent.data.claims.name
 #$caller = $eventGridEvent.data.claims."http://schemas.xmlsoap.org/ws/2005/05/identity/claims/upn"
 if ($null -eq $caller) {
     if ($eventGridEvent.data.authorization.evidence.principalType -eq "ServicePrincipal") {
-        $caller = (Get-AzADServicePrincipal -ObjectId $eventGridEvent.data.authorization.evidence.principalId).DisplayName
+        #$caller = (Get-AzADServicePrincipal -ObjectId $eventGridEvent.data.authorization.evidence.principalId).DisplayName
         if ($null -eq $caller) {
             Write-Host "MSI may not have permission to read the applications from the directory"
             $caller = $eventGridEvent.data.authorization.evidence.principalId
