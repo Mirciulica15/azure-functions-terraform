@@ -57,14 +57,14 @@ data "azurerm_subscription" "current" {
 }
 
 resource "azurerm_role_assignment" "reader" {
-  principal_id                     = azurerm_application_insights.main.id
+  principal_id                     = azurerm_application_insights.main.identity[0].principal_id
   role_definition_name             = "Reader"
   scope                            = data.azurerm_subscription.current.id
   skip_service_principal_aad_check = true
 }
 
 resource "azurerm_role_assignment" "contributor" {
-  principal_id                     = azurerm_application_insights.main.id
+  principal_id                     = azurerm_application_insights.main.identity[0].principal_id
   role_definition_name             = "Tag Contributor"
   scope                            = data.azurerm_subscription.current.id
   skip_service_principal_aad_check = true
