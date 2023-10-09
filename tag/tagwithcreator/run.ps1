@@ -1,7 +1,7 @@
 param($eventGridEvent, $TriggerMetadata)
 
-#$caller = $eventGridEvent.data.claims.name
-$caller = $eventGridEvent.data.claims."http://schemas.xmlsoap.org/ws/2005/05/identity/claims/upn"
+$caller = $eventGridEvent.data.claims.name
+#$caller = $eventGridEvent.data.claims."http://schemas.xmlsoap.org/ws/2005/05/identity/claims/upn"
 if ($null -eq $caller) {
     if ($eventGridEvent.data.authorization.evidence.principalType -eq "ServicePrincipal") {
         $caller = (Get-AzADServicePrincipal -ObjectId $eventGridEvent.data.authorization.evidence.principalId).DisplayName
