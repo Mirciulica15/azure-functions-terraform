@@ -33,11 +33,10 @@ resource "azurerm_windows_function_app" "main" {
   storage_account_access_key = azurerm_storage_account.main.primary_access_key
   service_plan_id            = azurerm_service_plan.main.id
 
+  app_settings = {
+    "WEBSITE_RUN_FROM_PACKAGE" = "1"
+  }
+
   site_config {}
 
-  connection_string {
-    name  = "MyStorageAccountConnection"
-    type  = "Custom"
-    value = "DefaultEndpointsProtocol=https;AccountName=${azurerm_storage_account.main.name};AccountKey=${azurerm_storage_account.main.primary_access_key};EndpointSuffix=core.windows.net"
-  }
 }
