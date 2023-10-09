@@ -24,6 +24,13 @@ resource "azurerm_service_plan" "main" {
   sku_name            = "Y1"
 }
 
+resource "azurerm_application_insights" "main" {
+  name                = "appi-func-${var.workload}-${var.environment}-${var.region}"
+  location            = azurerm_resource_group.main.location
+  resource_group_name = azurerm_resource_group.main.name
+  application_type    = "other"
+}
+
 resource "azurerm_windows_function_app" "main" {
   name                = "func-${var.workload}-${var.environment}-${var.region}"
   resource_group_name = azurerm_resource_group.main.name
@@ -37,6 +44,35 @@ resource "azurerm_windows_function_app" "main" {
     "WEBSITE_RUN_FROM_PACKAGE" = "1"
   }
 
-  site_config {}
+  site_config {
+    application_insights_connection_string = azurerm_application_insights.main.connection_string
+  }
 
+  identity {
+    type = "UserAssigned"
+    identity_ids = [azurerm_user_assigned_identity.main.id]
+  }
+
+}
+
+# Create a managed identity for the Function App
+resource "azurerm_user_assigned_identity" "main" {
+  name                = "uai-${var.workload}-${var.environment}-${var.region}"
+  location            = azurerm_resource_group.main.location
+  resource_group_name = azurerm_resource_group.main.name
+}
+
+data "azurerm_subscription" "current" {
+}
+
+resource "azurerm_role_assignment" "function_app_role_assignment_reader" {
+  principal_id          = azurerm_user_assigned_identity.main.principal_id
+  role_definition_name  = "Reader"
+  scope                 =  data.azurerm_subscription.current.id
+}
+
+resource "azurerm_role_assignment" "function_app_role_assignment_tagcontributor" {
+  principal_id          = azurerm_user_assigned_identity.main.principal_id
+  role_definition_name  = "Tag Contributor"
+  scope                 =  data.azurerm_subscription.current.id
 }
