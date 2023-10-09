@@ -58,24 +58,14 @@ data "azurerm_subscription" "current" {
 
 resource "azurerm_role_assignment" "reader" {
   principal_id                     = azurerm_windows_function_app.main.identity[0].principal_id
-  role_definition_name             = "Reader"
+  role_definition_name             = "Owner"
   scope                            = data.azurerm_subscription.current.id
   skip_service_principal_aad_check = true
 }
 
-resource "azurerm_role_assignment" "contributor" {
-  principal_id                     = azurerm_windows_function_app.main.identity[0].principal_id
-  role_definition_name             = "Tag Contributor"
-  scope                            = data.azurerm_subscription.current.id
-  skip_service_principal_aad_check = true
-}
-
-data "azurerm_client_config" "current" {
-}
-
-resource "azurerm_role_assignment" "spreader" {
-  principal_id                     = azurerm_windows_function_app.main.identity[0].principal_id
-  role_definition_name             = "Reader"
-  scope                            = data.azurerm_client_config.current.object_id
-  skip_service_principal_aad_check = true
-}
+# resource "azurerm_role_assignment" "contributor" {
+#   principal_id                     = azurerm_windows_function_app.main.identity[0].principal_id
+#   role_definition_name             = "Tag Contributor"
+#   scope                            = data.azurerm_subscription.current.id
+#   skip_service_principal_aad_check = true
+# }
