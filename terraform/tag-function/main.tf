@@ -21,7 +21,7 @@ resource "azurerm_service_plan" "main" {
   resource_group_name = azurerm_resource_group.main.name
   location            = azurerm_resource_group.main.location
   os_type             = "Windows"
-  sku_name            = "EP1"
+  sku_name            = "Y1"
 }
 
 resource "azurerm_windows_function_app" "main" {
