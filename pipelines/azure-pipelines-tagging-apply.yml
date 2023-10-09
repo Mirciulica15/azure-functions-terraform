@@ -83,6 +83,6 @@ stages:
       displayName: 'Azure functions app deploy'
       inputs:
         azureSubscription: ${{ parameters.subscription }}
-        appType: functionAppWindows
+        appType: functionApp
         appName: 'func-${{ parameters.workload }}-${{ parameters.environment }}-${{ parameters.region }}'
         package: $(System.ArtifactsDirectory)/**/*.zip
