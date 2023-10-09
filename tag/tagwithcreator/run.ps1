@@ -61,7 +61,7 @@ if ($tags) {
         }
     }
     else {
-        Write-Host "WARNING! Does $resourceId does not support tags? (`$tags.properties is null)"
+        Write-Host "WARNNG! Does $resourceId does not support tags? (`$tags.properties is null)"
     }
 }
 else {
