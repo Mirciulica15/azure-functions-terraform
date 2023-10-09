@@ -68,14 +68,6 @@ stages:
     pool:
       vmImage: ubuntu-latest
     steps:
-    # - task: ArchiveFiles@2
-    #   displayName: 'Archive files'
-    #   inputs:
-    #     rootFolderOrFile: 'scripts/tag.ps1'
-    #     includeRootFolder: false
-    #     archiveType: zip
-    #     archiveFile: tag.zip
-    #     replaceExistingArchive: true
     - task: ArchiveFiles@2
       displayName: 'Archive files'
       inputs:
