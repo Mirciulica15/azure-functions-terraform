@@ -26,6 +26,7 @@ The resources that had to be created in the Terraform files consist of:
 - **azurerm_application_insights** : for monitoring the azure function and its logs
 - **azurerm_windows_function_app** : the function app where the function will be deployed
 - **azurerm_role_assignment** : Reader and Tag Contributor role assignments for the function app over the scope of the subscription
+- **azurerm_eventgrid_event_subscription** : event subscription which triggers the function when a resource is created
 
 ### 1.2. Automation
 
