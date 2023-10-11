@@ -105,7 +105,7 @@ stages:
 - ${{ each value in parameters.stages }}:
   - template: templates/terraform-stage-template.yml
     parameters:
-      name: 'event-${{ value }}'
+      name: 'event${{ value }}'
       subscription: ${{ parameters.subscription }}
       source: 'event-grid'
       workload: ${{ parameters.workload }}
