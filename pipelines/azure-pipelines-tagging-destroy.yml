@@ -10,6 +10,14 @@ stages:
 
 - template: templates/terraform-stage-template.yml
   parameters:
+    prefix: ''
     name: destroy
     subscription: ${{ parameters.subscription }}
     source: 'tag-function'
+
+- template: templates/terraform-stage-template.yml
+  parameters:
+    prefix: 'event'
+    name: destroy
+    subscription: ${{ parameters.subscription }}
+    source: 'event-grid'
