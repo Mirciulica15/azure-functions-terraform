@@ -1,4 +1,5 @@
 parameters:
+  prefix: ''
   name: ''
   subscription: ''
   source: ''
@@ -8,7 +9,7 @@ parameters:
 
 stages:
 
-- stage: ${{ parameters.name }}
+- stage: ${{ parameters.prefix }}${{ parameters.name }}
   jobs:
   - template: ./terraform-job-template.yml
     parameters:
