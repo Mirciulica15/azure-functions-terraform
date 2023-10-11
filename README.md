@@ -2,6 +2,7 @@
 
 In this guide, we'll walk you through the process of creating an Azure Function using Terraform, automating the deployment with Azure DevOps Pipelines, and deploying a PowerShell script for auto-tagging resources created by users in Azure.
 The tag consists of a **Creator** tag, specifying the name of the creator, and a **CreatedDate** tag, specifying the date of the creation.
+The resources used for this project can be found at [Tagging Azure Resources with a Creator](https://techcommunity.microsoft.com/t5/core-infrastructure-and-security/tagging-azure-resources-with-a-creator/ba-p/1479819#:~:text=Update:%20Objects%20created%20by%20a,role%20in%20Azure%20Active%20Directory).
 
 ## Prerequisites
 
@@ -19,8 +20,8 @@ Before getting started, make sure you have the following prerequisites in place:
 Write the Terraform code to create the necessary Azure resources.
 The resources that had to be created in the Terraform files consist of:
 
-- **azurerm_resource_group**: resource group for the project resources
-- **azurerm_storage_account**: necessary storage for the function app
+- **azurerm_resource_group** : resource group for the project resources
+- **azurerm_storage_account** : necessary storage for the function app
 - **azurerm_service_plan** : the service plan for our azure function
 - **azurerm_application_insights** : for monitoring the azure function and its logs
 - **azurerm_windows_function_app** : the function app where the function will be deployed
