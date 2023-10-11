@@ -49,7 +49,8 @@ if ($tags) {
             if (!($tags.properties.TagsProperty.ContainsKey('Creator')) ) {
                 Update-AzTag -ResourceId $resourceId -Operation Merge -Tag $newTag | Out-Null
                 Update-AzTag -ResourceId $resourceId -Tag @{CreatedDate=$(Get-Date)} -Operation Merge
-                Write-Host "Added Creator tag with user: $caller"
+                Update-AzTag -ResourceId $resourceId -Tag "hidden-DeployedBy: terraform" -Operation Merge
+                Write-Host "Added Creator and CreatedDate tags with user: $caller"
             }
             else {
                 Write-Host "Creator tag already exists"
