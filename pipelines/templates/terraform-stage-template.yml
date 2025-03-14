@@ -1,21 +1,20 @@
 parameters:
-  prefix: ''
-  name: ''
-  subscription: ''
-  source: ''
-  workload: ''
-  environment: ''
-  region: ''
+  prefix: ""
+  name: ""
+  subscription: ""
+  source: ""
+  workload: ""
+  environment: ""
+  region: ""
 
 stages:
-
-- stage: ${{ parameters.prefix }}${{ parameters.name }}
-  jobs:
-  - template: ./terraform-job-template.yml
-    parameters:
-      terraformCommand: ${{ parameters.name }}
-      subscription: ${{ parameters.subscription }}
-      source: ${{ parameters.source }}
-      workload: ${{ parameters.workload }}
-      environment: ${{ parameters.environment }}
-      region: ${{ parameters.region }}
+  - stage: ${{ parameters.prefix }}${{ parameters.name }}
+    jobs:
+      - template: ./terraform-job-template.yml
+        parameters:
+          terraformCommand: ${{ parameters.name }}
+          subscription: ${{ parameters.subscription }}
+          source: ${{ parameters.source }}
+          workload: ${{ parameters.workload }}
+          environment: ${{ parameters.environment }}
+          region: ${{ parameters.region }}
